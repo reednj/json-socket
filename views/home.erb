@@ -1,0 +1,50 @@
+
+
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name='viewport' content='width=device-width' />
+
+	<title><%= yield_content :title %></title>
+
+	<script type='text/javascript' src='/js/jquery-2.1.4.min.js'></script>
+	<script type='text/javascript' src='/js/socket.js'></script>
+
+	<script type='text/javascript'>
+		class PreLog {
+			constructor(selector) {
+				this.element = $(selector);
+			}
+
+			append(text) {
+				this.element.append(text + "\n");
+			}
+		}
+
+		$(window).load((e) => {
+			let log = new PreLog('#log');
+
+			let ws = new JSONSocket({
+				url: 'ws://localhost:4567/io',
+				onOpen: () => ws.send('ping', {})
+			});
+
+			ws.addEvent('pong', (d) => log.append(d));
+
+			setInterval(() => ws.send('ping', 'hello'), 3000);
+
+		});
+	</script>
+
+</head>
+
+<body>
+
+<div style='margin: 8px;'>
+	<h1>Websocket Test</h1>
+	<pre id='log' style='background-color: #eee; max-width: 600px;padding:8px;'></pre>
+</div>
+
+</body>
+</html>
