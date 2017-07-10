@@ -2,7 +2,7 @@
 //
 class JSONSocket {
 	ws:WebSocket;
-	options:{};
+	options:Object;
 	stats:{in:number,out:number};
 	
 	constructor(options) {
