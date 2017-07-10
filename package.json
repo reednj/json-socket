@@ -1,0 +1,11 @@
+{
+  "name": "json-socket",
+  "version": "1.0.0",
+  "description": "A wrapper to make websockets much easier to use",
+  "main": "src/socket.js",
+  "author": "Nathan Reed <reednj@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "flow-remove-types src/*.flow.js > src/socket.js"
+  }
+}
