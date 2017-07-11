@@ -24,9 +24,9 @@ class WebSocketHelper
 		@ws.onopen { self.on_open }
 		@ws.onclose { self.on_close }
 		@ws.onmessage { |msg|
-			d = JSON.parse(msg, {:symbolize_names => true})
-			if d != nil && d[:e] != nil
-				Thread.new { self.on_message(d[:e], d[:d]) }
+			packet = JSON.parse(msg, {:symbolize_names => true})
+			if !packet.nil? && !packet[:e].nil?
+				Thread.new { self.on_message(packet) }
 			end
 		 }
 	end
@@ -39,7 +39,9 @@ class WebSocketHelper
 		@sockets.delete(self)
 	end
 
-	def on_message(event, data)
+	def on_message(packet)
+		event = packet[:e]
+		data = packet[:d]
 		event_method = 'on_' + event.underscore
 		
 		begin
@@ -48,7 +50,7 @@ class WebSocketHelper
 			end
 
 			simulate_latency if !self.latency.nil?
-			method(event_method).call(data) if self.respond_to? event_method
+			method(event_method).call(data, packet) if self.respond_to? event_method
 
 			if self.respond_to? 'after_message'
 				after_message(event, data)
@@ -66,7 +68,12 @@ class WebSocketHelper
 	
 	# send a message in to the current client
 	def send(event, data = {})
-		@ws.send({:event => event, :data => data}.to_json)
+		@ws.send({:e => event, :d => data}.to_json)
+	end
+
+	def reply(event, id, data)
+		packet = {:e => "#{event}:reply", :d => data, :id => id.to_i}
+		@ws.send(packet.to_json)
 	end
 	
 	# sends a message to all connected clients, including the current client

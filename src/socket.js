@@ -1,12 +1,23 @@
 //      
 //
+               
+          
+          
+           
+ 
+
 class JSONSocket {
 	             
 	               
+	                
+	                         
 	                             
 	
 	constructor(options) {
+		this.packetId = 1;
 		this.stats = { in: 0, out: 0 };
+		this.callbackLookup = new TimedHash({ maxAgeSec: 30.0 });
+
 		this.options = options || {};
 		this.options.url = this.options.url || null;
 		this.options.onOpen = this.options.onOpen || function() {};
@@ -46,18 +57,41 @@ class JSONSocket {
 		}
 	}
 	
-	onMessage(msg                            ) {
-		if(msg.event && typeof msg.event == 'string') {
+	onMessage(packet       ) {
+		if(packet.e && typeof packet.e == 'string') {
 			this.stats.in++;
-			(this.eventNameToFunction(msg.event))(msg.data);
+			(this.eventNameToFunction(packet.e))(packet.d);
+
+			if(packet.id) {
+				var fn = this.callbackLookup.get(this.callbackKey(packet));
+				if(fn) {
+					fn(packet.d);
+				}
+			}
+		}
+	}
+
+	callbackKey(packet       ) {
+		if(packet.e.endsWith(":reply")) {
+			return `${packet.e}:${(packet.id || 0).toString()}`;
+		} else {
+			return `${packet.e}:reply:${(packet.id || 0).toString()}`;
 		}
 	}
 
 	send(eventType       , data) {
 		if(this.isConnected()) {
-			var str = JSON.stringify({e: eventType, d: data});
-			this.ws.send(str);
+			this.packetId += 1;
+			var packet        = {e: eventType, d: data, id: this.packetId}
+			this.ws.send(JSON.stringify(packet));
 			this.stats.out++;
+
+			return new Promise((resolve, reject) => {
+				this.callbackLookup.add(this.callbackKey(packet), resolve);
+			});
+			
+		} else {
+			return Promise.reject('NOT_CONNECTED');
 		}
 	}
 
@@ -129,6 +163,10 @@ class TimedHash {
 
 	get(k       ) {
 		return (this.data[k] || {}).contents;
+	}
+
+	contains(k       ) {
+		return this.data[k] != null;
 	}
 
 	purge() {

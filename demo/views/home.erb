@@ -31,14 +31,13 @@
 			});
 
 			ws.addEvent('pong', (d) => log.append(d));
-			//setInterval(() => ws.send('ping', 'hello'), 3000);
+			setInterval(() => ws.send('ping', 'hello').then((r) => log.append(r)), 3000);
 
-			var h = new TimedHash({maxAgeSec: 3.0});
-
-			setInterval(function() {
-				h.add(':' + Math.random(), { name:'nathan', k:Math.random() });
-				console.log(h.count());
-			}, 3600);
+			//var h = new TimedHash({maxAgeSec: 3.0});
+			//setInterval(function() {
+			//	h.add(':' + Math.random(), { name:'nathan', k:Math.random() });
+			//	console.log(h.count());
+			//}, 3600);
 
 
 		});
