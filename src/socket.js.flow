@@ -1,5 +1,5 @@
 // @flow
-//
+
 type Packet = {
 	e:string,
 	d:Object,
@@ -71,7 +71,7 @@ class JSONSocket {
 		}
 	}
 
-	callbackKey(packet:Packet) {
+	callbackKey(paket:Packet) {
 		if(packet.e.endsWith(":reply")) {
 			return `${packet.e}:${(packet.id || 0).toString()}`;
 		} else {

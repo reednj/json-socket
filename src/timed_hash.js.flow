@@ -1,3 +1,4 @@
+// @flow
 
 class TimedHash {
 	lastPurge:number;
@@ -8,7 +9,7 @@ class TimedHash {
 		this.options = options || {};
 		this.options.maxAgeSec = this.options.maxAgeSec || 30.0;
 		this.data = {};
-		this.lastPurge = Date.now();		
+		this.lastPurge = Date.now();
 	}
 
 	add(k:string, contents:Object) {
