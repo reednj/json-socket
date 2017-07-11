@@ -3,7 +3,7 @@
 class JSONSocket {
 	             
 	               
-	             
+	                             
 	
 	constructor(options) {
 		this.stats = { in: 0, out: 0 };
@@ -103,3 +103,47 @@ class JSONSocket {
 		this.initSocket();
 	}
 }
+
+class TimedHash {
+	                 
+	        
+	                             
+
+	constructor(options) {
+		this.options = options || {};
+		this.options.maxAgeSec = this.options.maxAgeSec || 30.0;
+		this.data = {};
+		this.lastPurge = Date.now();		
+	}
+
+	add(k       , contents       ) {
+		if(this.lastPurge < Date.now() - 1000) {
+			this.purge();
+		}
+
+		this.data[k] = { 
+			contents:contents,
+			addedAt: Date.now()
+		};
+	}
+
+	get(k       ) {
+		return (this.data[k] || {}).contents;
+	}
+
+	purge() {
+		this.expiredKeys().forEach((k) => delete this.data[k]);
+		this.lastPurge = Date.now();
+	}
+
+	count() {
+		return Object.keys(this.data).length
+	}
+
+	expiredKeys()          {
+		return Object.keys(this.data).filter((k) => {
+			return this.data[k].addedAt < Date.now() - this.options.maxAgeSec * 1000;
+		});
+	}
+}
+
