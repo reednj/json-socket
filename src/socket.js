@@ -1,5 +1,7 @@
 //      
 
+//import TimedHash from './timed_hash.flow'
+
                
           
           
@@ -140,18 +142,17 @@ class JSONSocket {
 }
 // @flow
 
-class TimedHash {
+/* export default */ class TimedHash {
 	                 
 	        
 	                             
 
-	constructor(options) {
+	constructor(options       ) {
 		this.options = options || {};
 		this.options.maxAgeSec = this.options.maxAgeSec || 30.0;
 		this.data = {};
 		this.lastPurge = Date.now();
 	}
-
 
 	add(k       , contents       ) {
 		if(this.lastPurge < Date.now() - 1000) {
