@@ -7,6 +7,6 @@
   "author": "Nathan Reed <reednj@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "flow-remove-types src/*.flow > src/socket.js && cp src/*.js demo/public/js"
+    "build": "cat src/*.flow | flow-remove-types > src/socket.js && cp src/*.js demo/public/js"
   }
 }
