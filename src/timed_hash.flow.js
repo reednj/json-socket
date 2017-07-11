@@ -12,6 +12,7 @@ class TimedHash {
 		this.lastPurge = Date.now();
 	}
 
+
 	add(k:string, contents:Object) {
 		if(this.lastPurge < Date.now() - 1000) {
 			this.purge();

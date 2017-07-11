@@ -1,5 +1,5 @@
-//
-//
+//      
+
                
           
           
@@ -14,6 +14,7 @@ class JSONSocket {
 	                             
 	
 	constructor(options) {
+
 		this.packetId = 1;
 		this.stats = { in: 0, out: 0 };
 		this.callbackLookup = new TimedHash({ maxAgeSec: 30.0 });
@@ -137,6 +138,7 @@ class JSONSocket {
 		this.initSocket();
 	}
 }
+// @flow
 
 class TimedHash {
 	                 
@@ -147,8 +149,9 @@ class TimedHash {
 		this.options = options || {};
 		this.options.maxAgeSec = this.options.maxAgeSec || 30.0;
 		this.data = {};
-		this.lastPurge = Date.now();		
+		this.lastPurge = Date.now();
 	}
+
 
 	add(k       , contents       ) {
 		if(this.lastPurge < Date.now() - 1000) {

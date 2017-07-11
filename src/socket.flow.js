@@ -14,6 +14,7 @@ class JSONSocket {
 	stats:{in:number,out:number};
 	
 	constructor(options) {
+
 		this.packetId = 1;
 		this.stats = { in: 0, out: 0 };
 		this.callbackLookup = new TimedHash({ maxAgeSec: 30.0 });
@@ -71,7 +72,7 @@ class JSONSocket {
 		}
 	}
 
-	callbackKey(paket:Packet) {
+	callbackKey(packet:Packet) {
 		if(packet.e.endsWith(":reply")) {
 			return `${packet.e}:${(packet.id || 0).toString()}`;
 		} else {
