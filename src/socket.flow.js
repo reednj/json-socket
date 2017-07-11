@@ -1,5 +1,7 @@
 // @flow
 
+import TimedHash from './timed_hash.flow'
+
 type Packet = {
 	e:string,
 	d:Object,

@@ -1,17 +1,16 @@
 // @flow
 
-class TimedHash {
+export default class TimedHash {
 	lastPurge:number;
 	data:{};
 	options:{ maxAgeSec:number };
 
-	constructor(options) {
+	constructor(options:Object) {
 		this.options = options || {};
 		this.options.maxAgeSec = this.options.maxAgeSec || 30.0;
 		this.data = {};
 		this.lastPurge = Date.now();
 	}
-
 
 	add(k:string, contents:Object) {
 		if(this.lastPurge < Date.now() - 1000) {
