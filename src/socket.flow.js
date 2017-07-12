@@ -1,6 +1,6 @@
 // @flow
 
-//import TimedHash from './timed_hash.flow'
+import TimedHash from './timed_hash.flow'
 
 type Packet = {
 	e:string,
@@ -8,7 +8,7 @@ type Packet = {
 	id?:number
 }
 
-class JSONSocket {
+export default class JSONSocket {
 	ws:WebSocket;
 	options:Object;
 	packetId:number;
@@ -140,3 +140,6 @@ class JSONSocket {
 		this.initSocket();
 	}
 }
+
+// global export...
+window.JSONSocket = window.JSONSocket  || JSONSocket;

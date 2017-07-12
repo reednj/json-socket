@@ -1,6 +1,6 @@
 // @flow
 
-/* export default */ class TimedHash {
+export default class TimedHash {
 	lastPurge:number;
 	data:{};
 	options:{ maxAgeSec:number };

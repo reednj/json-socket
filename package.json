@@ -9,7 +9,18 @@
   "author": "Nathan Reed <reednj@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "cat src/*.flow.js | flow-remove-types > src/socket.js && cp src/socket.js demo/public/js"
+    "build": "yarn run build:babel && yarn run build:browser && yarn build:demo",
+    "build:babel": "./node_modules/.bin/babel src -d lib",
+    "build:browser": "browserify lib/socket.flow.js -o lib/socket.js && rm lib/*.flow.js",
+    "build:demo": "cp lib/*.js demo/public/js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-remove-import": "^1.0.0",
+    "babel-preset-flow": "^6.23.0"
+  }
 }
