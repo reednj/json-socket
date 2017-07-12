@@ -15,12 +15,13 @@
     "build:demo": "cp lib/*.js demo/public/js"
   },
   "dependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.6.0"
+
   },
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "babel-plugin-transform-remove-import": "^1.0.0",
-    "babel-preset-flow": "^6.23.0"
+    "babel-preset-flow": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0"
   }
 }
