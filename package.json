@@ -12,8 +12,8 @@
     "build": "yarn run build:babel && yarn build:demo",
     "build:babel": "./node_modules/.bin/babel src -d lib --source-maps",
     "build:watch": "./node_modules/.bin/babel src -d lib --source-maps --watch",
-    "build:browser": "browserify lib/socket.flow.js -o lib/socket.js && rm lib/*.flow.js",
-    "build:demo": "cp lib/*.js demo/public/js"
+    "build:browser": "browserify lib/socket.js -o lib/socket.all.js",
+    "build:demo": "yarn run build:browser && cp lib/*.all.js demo/public/js"
   },
   "dependencies": {
 
