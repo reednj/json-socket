@@ -1,13 +1,3 @@
-# A wrapper around the great sinatra-websocket gem (https://github.com/simulacre/sinatra-websocket) that
-# allows for event based websockets
-#
-# Each message to the client should be a json object in the form {'event': string, 'data': obj }
-# When received by the server the appropriate method for that event is called, if it exists. For
-# example, the event 'setCell' would try to call the method on_set_cell with object contained
-# in 'data'. You should subclass WebSocketHelper in order to implement these methods
-#
-# Nathan Reed (@reednj) 2013-08-21
-
 require 'faye/websocket'
 
 class Faye::WebSocket::Sinatra
