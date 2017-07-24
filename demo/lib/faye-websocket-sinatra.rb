@@ -29,7 +29,7 @@ class Faye::WebSocket::Sinatra
 	def on_message(packet)
 		event = packet[:e]
 		data = packet[:d]
-		event_method = 'on_' + event.underscore
+		event_method = 'on_' + event
 		
 		begin
 			if self.respond_to? 'before_message'
@@ -86,14 +86,4 @@ class Sinatra::Request
 		Faye::WebSocket.websocket?(env)
 	end
 
-end
-
-class String
-	def underscore
-		self.gsub(/::/, '/').
-		gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-		gsub(/([a-z\d])([A-Z])/,'\1_\2').
-		tr("-", "_").
-		downcase
-	end
 end
