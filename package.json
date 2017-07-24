@@ -10,19 +10,19 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn run build:babel && yarn build:demo",
-    "build:babel": "./node_modules/.bin/babel src -d lib --source-maps",
+    "build:babel": "./node_modules/.bin/babel src -d lib --source-maps && yarn run build:flow",
     "build:watch": "./node_modules/.bin/babel src -d lib --source-maps --watch",
     "build:browser": "browserify lib/socket.js -o lib/socket.all.js",
+    "build:flow": "flow-copy-source -v src lib",
     "build:demo": "yarn run build:browser && cp lib/*.all.js demo/public/js"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "babel-plugin-transform-remove-import": "^1.0.0",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-flow": "^6.23.0",
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.6.0"
+    "flow-copy-source": "^1.2.0"
   }
 }
