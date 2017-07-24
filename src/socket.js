@@ -1,6 +1,6 @@
 // @flow
 
-import TimedHash from './timed_hash'
+import TimedHash from './timed_hash.js'
 
 type Packet = {
 	e:string,
@@ -8,7 +8,7 @@ type Packet = {
 	id?:number
 }
 
-export default class JSONSocket {
+export class JSONSocket {
 	ws:WebSocket;
 	options:Object;
 	packetId:number;
@@ -37,12 +37,18 @@ export default class JSONSocket {
 
 	initSocket() {
 		this.ws = new WebSocket(this.options.url);
-		this.ws.onopen = this.onOpen.bind(this);
 		this.ws.onclose = this.onClose.bind(this);
-		this.ws.onmessage = function(e) {
+		this.ws.onmessage = function (e) {
 			// $FlowFixMe
 			this.onMessage(JSON.parse(e.data));
 		}.bind(this);
+
+		this._whenConnected = new Promise((resolve, reject) => {
+			this.ws.onopen = () => {
+				this.onOpen();
+				resolve(this);
+			}
+		});
 	}
 	
 	onOpen() {
@@ -138,6 +144,10 @@ export default class JSONSocket {
 
 	open() {
 		this.initSocket();
+	}
+
+	whenConnected() {
+		return this._whenConnected;
 	}
 }
 
