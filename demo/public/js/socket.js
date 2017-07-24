@@ -1,11 +1,10 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _timed_hash = require('./timed_hash.flow');
+var _timed_hash = require('./timed_hash');
 
 var _timed_hash2 = _interopRequireDefault(_timed_hash);
 
@@ -141,54 +140,4 @@ class JSONSocket {
 exports.default = JSONSocket; // global export...
 
 window.JSONSocket = window.JSONSocket || JSONSocket;
-},{"./timed_hash.flow":2}],2:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-class TimedHash {
-
-	constructor(options) {
-		this.options = options || {};
-		this.options.maxAgeSec = this.options.maxAgeSec || 30.0;
-		this.data = {};
-		this.lastPurge = Date.now();
-	}
-
-	add(k, contents) {
-		if (this.lastPurge < Date.now() - 1000) {
-			this.purge();
-		}
-
-		this.data[k] = {
-			contents: contents,
-			addedAt: Date.now()
-		};
-	}
-
-	get(k) {
-		return (this.data[k] || {}).contents;
-	}
-
-	contains(k) {
-		return this.data[k] != null;
-	}
-
-	purge() {
-		this.expiredKeys().forEach(k => delete this.data[k]);
-		this.lastPurge = Date.now();
-	}
-
-	count() {
-		return Object.keys(this.data).length;
-	}
-
-	expiredKeys() {
-		return Object.keys(this.data).filter(k => {
-			return this.data[k].addedAt < Date.now() - this.options.maxAgeSec * 1000;
-		});
-	}
-}
-exports.default = TimedHash;
-},{}]},{},[1]);
+//# sourceMappingURL=socket.js.map

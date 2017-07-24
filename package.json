@@ -9,8 +9,9 @@
   "author": "Nathan Reed <reednj@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "yarn run build:babel && yarn run build:browser && yarn build:demo",
-    "build:babel": "./node_modules/.bin/babel src -d lib",
+    "build": "yarn run build:babel && yarn build:demo",
+    "build:babel": "./node_modules/.bin/babel src -d lib --source-maps",
+    "build:watch": "./node_modules/.bin/babel src -d lib --source-maps --watch",
     "build:browser": "browserify lib/socket.flow.js -o lib/socket.js && rm lib/*.flow.js",
     "build:demo": "cp lib/*.js demo/public/js"
   },

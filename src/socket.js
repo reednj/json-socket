@@ -1,6 +1,6 @@
 // @flow
 
-import TimedHash from './timed_hash.flow'
+import TimedHash from './timed_hash'
 
 type Packet = {
 	e:string,
@@ -15,7 +15,7 @@ export default class JSONSocket {
 	callbackLookup:TimedHash;
 	stats:{in:number,out:number};
 	
-	constructor(options) {
+	constructor(options:Object) {
 
 		this.packetId = 1;
 		this.stats = { in: 0, out: 0 };
@@ -82,7 +82,7 @@ export default class JSONSocket {
 		}
 	}
 
-	send(eventType:string, data) {
+	send(eventType:string, data:Object) {
 		if(this.isConnected()) {
 			this.packetId += 1;
 			var packet:Packet = {e: eventType, d: data, id: this.packetId}
@@ -117,7 +117,7 @@ export default class JSONSocket {
 		return this;
 	}
 
-	eventNameToFunction(eventType):Function {
+	eventNameToFunction(eventType:string):Function {
 		if(eventType) {
 			var fnName = 'on_' + eventType.toLowerCase();
 			return this.options[fnName] || (()=>{});
