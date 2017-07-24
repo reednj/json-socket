@@ -1,7 +1,7 @@
 require 'time'
 require './lib/websocket'
 
-class AppSocket < WebSocketHelper
+class AppSocket < Faye::WebSocket::Sinatra
     def on_ping(data, packet)
         if packet[:id].nil?
             self.send('pong', Time.now.iso8601)

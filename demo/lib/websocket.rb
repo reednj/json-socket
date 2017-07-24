@@ -10,7 +10,7 @@
 
 require 'faye/websocket'
 
-class WebSocketHelper
+class Faye::WebSocket::Sinatra
 	attr_accessor :latency
 
 	def initialize(ws)
@@ -83,6 +83,19 @@ class WebSocketHelper
 	def close
 		@ws.close_connection
 	end
+end
+
+class Sinatra::Request
+	def websocket
+		ws = Faye::WebSocket.new(env)
+		yield(ws)
+		ws.rack_response
+	end
+
+	def websocket?
+		Faye::WebSocket.websocket?(env)
+	end
+
 end
 
 class String

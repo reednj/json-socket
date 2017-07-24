@@ -29,11 +29,10 @@ end
 Faye::WebSocket.load_adapter('thin')
 
 get '/io' do
-	if Faye::WebSocket.websocket?(request.env)
-		ws = Faye::WebSocket.new(request.env)
+	return 'websockets only' unless request.websocket?
+	
+	request.websocket do |ws|
 		AppSocket.new(ws)
-		ws.rack_response
-	else
-		return 'websockets only'
-	end	
+	end
 end
+
