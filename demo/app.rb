@@ -22,28 +22,18 @@ configure :development do
 	set :port, 4567
 end
 
-configure :production do
-
-end
-
-helpers do
-
-	# basically the same as a regular halt, but it sends the message to the 
-	# client with the content type 'text/plain'. This is important, because
-	# the client error handlers look for that, and will display the message
-	# if it is text/plain and short enough
-	def halt_with_text(code, message = nil)
-		message = message.to_s if !message.nil?
-		halt code, {'Content-Type' => 'text/plain'}, message
-	end
-
-end
-
 get '/' do
 	erb :home
 end
 
+Faye::WebSocket.load_adapter('thin')
+
 get '/io' do
-	return 'websockets only' if !request.websocket?
-	request.websocket { |ws| AppSocket.new(ws) }
+	if Faye::WebSocket.websocket?(request.env)
+		ws = Faye::WebSocket.new(request.env)
+		AppSocket.new(ws)
+		ws.rack_response
+	else
+		return 'websockets only'
+	end	
 end

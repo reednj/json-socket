@@ -8,6 +8,6 @@ gem 'sinatra'
 gem 'mysql2'
 gem 'sequel'
 gem 'sinatra-contrib'
-gem 'sinatra-websocket'
+gem 'faye-websocket', require: 'faye/websocket'
 gem 'erubis'
 

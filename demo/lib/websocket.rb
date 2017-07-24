@@ -8,23 +8,20 @@
 #
 # Nathan Reed (@reednj) 2013-08-21
 
-require 'sinatra-websocket'
+require 'faye/websocket'
 
 class WebSocketHelper
 	attr_accessor :latency
 
 	def initialize(ws)
 		self.latency = nil
-		# the sockets list is the list of all other WebSocketHelper classes
-		# for all other connections. This makes it easy to send a message to 
-		# all connected clients
-		@sockets = SharedList.list
 		@ws = ws
 
-		@ws.onopen { self.on_open }
-		@ws.onclose { self.on_close }
-		@ws.onmessage { |msg|
-			packet = JSON.parse(msg, {:symbolize_names => true})
+		@ws.on(:open) { self.on_open }
+		@ws.on(:close) { self.on_close }
+		@ws.on(:message) { |e|
+			packet = JSON.parse(e.data, {:symbolize_names => true})
+
 			if !packet.nil? && !packet[:e].nil?
 				Thread.new { self.on_message(packet) }
 			end
@@ -32,11 +29,11 @@ class WebSocketHelper
 	end
 
 	def on_open
-		@sockets.push self
+		
 	end
 
 	def on_close
-		@sockets.delete(self)
+
 	end
 
 	def on_message(packet)
@@ -76,24 +73,6 @@ class WebSocketHelper
 		@ws.send(packet.to_json)
 	end
 	
-	# sends a message to all connected clients, including the current client
-	def send_all(event, data)
-		EM.next_tick {
-			@sockets.each do |s|
-				s.send(event, data) 
-			end
-		}
-	end
-
-	# sends a message to all connected clients, *except* the current one
-	def send_others(event, data)
-		EM.next_tick {
-			@sockets.each do |s|
-				s.send(event, data) if s != self
-			end
-		}
-	end
-
 	def simulate_latency
 		return if self.latency.nil?
 		factor = ((rand() * 0.2 - 0.1) + 1) # 0.9 to 1.1
@@ -104,8 +83,6 @@ class WebSocketHelper
 	def close
 		@ws.close_connection
 	end
-
-	#def handle_error(e, path)
 end
 
 class String
@@ -115,13 +92,5 @@ class String
 		gsub(/([a-z\d])([A-Z])/,'\1_\2').
 		tr("-", "_").
 		downcase
-	end
-end
-
-class SharedList
-	@@data = nil
-	def self.list
-		@@data = [] if @@data == nil
-		return @@data
 	end
 end
