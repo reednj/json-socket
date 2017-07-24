@@ -30,6 +30,14 @@ export class JSONSocket {
 		this.options.autoconnect = this.options.autoconnect === false ? false : true;
 		this.options.connectWait = 1;
 
+		if(!this.options.url.startsWith('ws://') && !this.options.url.startsWith('wss://')) {
+			if(document.location.protocol == 'https') {
+				this.options.url = `wss://${document.location.hostname}` + this.options.url
+			} else {
+				this.options.url = `ws://${document.location.hostname}:${document.location.port || '80'}` + this.options.url;
+			}
+		}
+
 		if(this.options.autoconnect) {
 			this.initSocket();
 		}
