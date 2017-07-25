@@ -22,7 +22,7 @@ export class JSONSocket {
 		this.callbackLookup = new TimedHash({ maxAgeSec: 30.0 });
 
 		this.options = options || {};
-		this.options.url = this.options.url || null;
+		this.options.url = this.options.url || '';
 		this.options.onOpen = this.options.onOpen || function() {};
 		this.options.onClose = this.options.onClose || function() {};
 
