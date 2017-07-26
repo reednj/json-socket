@@ -1,6 +1,6 @@
 // @flow
 
-import TimedHash from './timed_hash.js'
+import TimedHash from './timed_hash'
 
 type Packet = {
 	e:string,
