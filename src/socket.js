@@ -14,7 +14,7 @@ export class JSONSocket {
 	packetId:number;
 	callbackLookup:TimedHash;
 	stats:{in:number,out:number};
-	
+	_whenConnected:Promise<*>;	
 	constructor(options:Object) {
 
 		this.packetId = 1;
@@ -96,7 +96,7 @@ export class JSONSocket {
 		}
 	}
 
-	send(eventType:string, data:Object) {
+	send(eventType:string, data:any) {
 		if(this.isConnected()) {
 			this.packetId += 1;
 			var packet:Packet = {e: eventType, d: data, id: this.packetId}
