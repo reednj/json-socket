@@ -16,7 +16,6 @@ define(['exports', './timed_hash'], function (exports, _timed_hash) {
 	}
 
 	class JSONSocket {
-
 		constructor(options) {
 
 			this.packetId = 1;
