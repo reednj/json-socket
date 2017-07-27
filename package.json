@@ -5,6 +5,7 @@
   "main": "lib/socket.js",
   "author": "Nathan Reed <reednj@gmail.com>",
   "license": "MIT",
+  "repository": "https://github.com/reednj/json-socket.git",
   "scripts": {
     "build": "yarn build:clean && yarn build:babel && yarn build:demo",
     "build:clean": "rimraf ./lib/*",
