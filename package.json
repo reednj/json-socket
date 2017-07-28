@@ -7,13 +7,11 @@
   "license": "MIT",
   "repository": "https://github.com/reednj/json-socket.git",
   "scripts": {
-    "build": "yarn build:clean && yarn build:babel && yarn build:demo",
+    "build": "yarn build:clean && yarn build:lib",
     "build:clean": "rimraf ./lib/*",
-    "build:babel": "./node_modules/.bin/babel src -d lib --source-maps && yarn run build:flow",
+    "build:lib": "./node_modules/.bin/babel src -d lib --source-maps && yarn run build:flow",
     "build:watch": "./node_modules/.bin/babel src -d lib --source-maps --watch",
-    "build:browser": "browserify lib/socket.js -o lib/socket.all.js",
-    "build:flow": "flow-copy-source -v src lib",
-    "build:demo": "yarn run build:browser && cp lib/*.all.js demo/public/js"
+    "build:flow": "flow-copy-source -v src lib"
   },
   "dependencies": {},
   "devDependencies": {
