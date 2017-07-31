@@ -1,4 +1,9 @@
 {
   "presets": ["flow"],
-  "plugins": ["transform-es2015-modules-amd"]
+  "plugins": ["transform-es2015-modules-amd"],
+  "env":{
+    "production": {
+      "presets": ["env", "flow"]
+    }
+  }
 }
