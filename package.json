@@ -1,6 +1,6 @@
 {
   "name": "json-socket",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A wrapper to make websockets easier to use",
   "main": "lib/socket.js",
   "author": "Nathan Reed <reednj@gmail.com>",
