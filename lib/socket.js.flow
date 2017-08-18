@@ -94,10 +94,10 @@ export class JSONSocket {
 		}
 	}
 
-	send(eventType:string, data:any) {
+	send(eventType:string, data:Object={}) {
 		if(this.isConnected()) {
 			this.packetId += 1;
-			var packet:Packet = {e: eventType, d: data, id: this.packetId}
+			var packet:Packet = {e: eventType, d: data || {}, id: this.packetId}
 			this.ws.send(JSON.stringify(packet));
 			this.stats.out++;
 
@@ -108,6 +108,10 @@ export class JSONSocket {
 		} else {
 			return Promise.reject('NOT_CONNECTED');
 		}
+	}
+
+	on(eventType:string, fn:Function) {
+		return this.addEvent(eventType, fn);
 	}
 
 	addEvent(eventType:string, fn:Function) {
