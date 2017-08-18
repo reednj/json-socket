@@ -110,6 +110,10 @@ export class JSONSocket {
 		}
 	}
 
+	on(eventType:string, fn:Function) {
+		return this.addEvent(eventType, fn);
+	}
+
 	addEvent(eventType:string, fn:Function) {
 		
 		if(eventType && typeof fn == 'function') {
