@@ -94,10 +94,10 @@ export class JSONSocket {
 		}
 	}
 
-	send(eventType:string, data:any) {
+	send(eventType:string, data:Object={}) {
 		if(this.isConnected()) {
 			this.packetId += 1;
-			var packet:Packet = {e: eventType, d: data, id: this.packetId}
+			var packet:Packet = {e: eventType, d: data || {}, id: this.packetId}
 			this.ws.send(JSON.stringify(packet));
 			this.stats.out++;
 
