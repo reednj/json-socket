@@ -94,7 +94,9 @@ export class JSONSocket {
 		}
 	}
 
-	send(eventType:string, data:Object={}) {
+	// the type of 'data' has to be 'any', not Object, because it can
+	// be set to any serializable type, like array, or string etc
+	send(eventType:string, data:any={}) {
 		if(this.isConnected()) {
 			this.packetId += 1;
 			var packet:Packet = {e: eventType, d: data || {}, id: this.packetId}
