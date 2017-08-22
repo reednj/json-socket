@@ -1,6 +1,6 @@
 {
   "name": "lanyard",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A wrapper to make websockets easier to use",
   "main": "lib/socket.js",
   "author": "Nathan Reed <reednj@gmail.com>",
